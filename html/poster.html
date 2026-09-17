@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>High-Throughput Dynamic Material Characterization — Integrated Digital Twin & Miniature Kolsky Bar</title>
+  <style>
+    /* =========================================================
+       CSS RESET & PRINT CONFIGURATION (24" x 32" Poster)
+       ========================================================= */
+    @page {
+      size: 24in 32in;
+      margin: 0;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ps-navy: #0B2545;
+      --ps-navy-dark: #071930;
+      --ps-blue-mid: #1F4E8C;
+      --ps-blue-light: #8FB8DE;
+      --ps-blue-ice: #F0F5FA;
+      --ps-gold: #D49B28;
+      --ps-gold-light: #FFF9E6;
+      --text-dark: #0F172A;
+      --text-muted: #475569;
+      --card-border: #CBD5E1;
+      --card-bg: #FFFFFF;
+      --shadow-sm: 0 3px 6px rgba(11, 37, 69, 0.07);
+      --shadow-md: 0 6px 14px rgba(11, 37, 69, 0.10);
+    }
+
+    body {
+      width: 24in;
+      height: 32in;
+      max-width: 24in;
+      max-height: 32in;
+      margin: 0 auto;
+      background-color: #F8FAFC;
+      color: var(--text-dark);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* =========================================================
+       1. TOP HEADER BANNER (Full 24" Width)
+       ========================================================= */
+    .header-banner {
+      width: 100%;
+      height: 3.65in;
+      background: #FFFFFF;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25in 0.9in;
+      border-top: 0.12in solid var(--ps-navy);
+      border-bottom: 0.08in solid var(--ps-navy);
+      box-shadow: 0 4px 16px rgba(11, 37, 69, 0.12);
+      z-index: 10;
+    }
+
+    .header-banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0.04in;
+      background: var(--ps-gold);
+    }
+
+    .header-banner::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0.04in;
+      background: var(--ps-gold);
+    }
+
+    .header-logo {
+      height: 1.50in;
+      max-width: 4.3in;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-center {
+      text-align: center;
+      flex: 1;
+      padding: 0 0.4in;
+    }
+
+    .header-title {
+      font-size: 35pt;
+      font-weight: 850;
+      color: var(--ps-navy);
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.08in;
+    }
+
+    .header-subtitle {
+      font-size: 19.5pt;
+      font-weight: 700;
+      color: var(--ps-blue-mid);
+      line-height: 1.2;
+      margin-bottom: 0.12in;
+    }
+
+    .header-authors {
+      font-size: 15pt;
+      font-weight: 700;
+      color: var(--ps-navy-dark);
+      margin-bottom: 0.05in;
+    }
+
+    .header-authors span.separator {
+      color: var(--ps-gold);
+      margin: 0 0.16in;
+      font-weight: 900;
+    }
+
+    .header-affiliation {
+      font-size: 12pt;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       2. POSTER MAIN CONTENT CANVAS
+       ========================================================= */
+    .poster-content {
+      flex: 1;
+      padding: 0.35in 0.8in 0.45in 0.8in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.28in;
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6in;
+    }
+
+    /* =========================================================
+       3. MODERN CARD COMPONENT
+       ========================================================= */
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 0.16in;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: var(--ps-navy);
+      padding: 0.13in 0.25in;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3.5px solid var(--ps-gold);
+    }
+
+    .card-title {
+      font-size: 15.5pt;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
+    }
+
+    .card-badge {
+      background: var(--ps-blue-mid);
+      color: #FFFFFF;
+      font-size: 9pt;
+      font-weight: 800;
+      padding: 0.04in 0.14in;
+      border-radius: 0.05in;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .card-badge.gold {
+      background: var(--ps-gold);
+      color: var(--ps-navy);
+    }
+
+    .card-body {
+      padding: 0.22in 0.25in 0.24in 0.25in;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.16in;
+    }
+
+    /* =========================================================
+       4. CARD SPECIFIC ELEMENTS & FIGURES
+       ========================================================= */
+    /* Card 1 Hardware Layout */
+    .card-hardware-top {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 0.2in;
+      align-items: stretch;
+    }
+
+    .card-hardware-img {
+      width: 100%;
+      height: 3.75in;
+      object-fit: contain;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.08in;
+      padding: 0.05in;
+    }
+
+    .spec-card {
+      background: var(--ps-blue-ice);
+      border: 1.2px solid #CBD5E1;
+      border-radius: 0.08in;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-header {
+      background: var(--ps-blue-mid);
+      color: #FFFFFF;
+      font-size: 9.8pt;
+      font-weight: 800;
+      text-align: center;
+      padding: 0.07in;
+      letter-spacing: 0.05em;
+    }
+
+    .spec-table {
+      padding: 0.12in 0.14in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      font-size: 9.8pt;
+      line-height: 1.4;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.035in 0;
+      border-bottom: 1px dashed rgba(31, 78, 140, 0.25);
+    }
+
+    .spec-row:last-child {
+      border-bottom: none;
+    }
+
+    .spec-label {
+      font-weight: 750;
+      color: var(--ps-navy);
+    }
+
+    .spec-val {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Card 2 Subsection: Innovative Pulse Shaping */
+    .sub-panel {
+      background: var(--ps-blue-ice);
+      border: 1.2px solid #CBD5E1;
+      border-radius: 0.08in;
+      overflow: hidden;
+    }
+
+    .sub-header {
+      background: var(--ps-navy-dark);
+      padding: 0.07in 0.16in;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2.5px solid var(--ps-gold);
+    }
+
+    .sub-title {
+      color: #FFFFFF;
+      font-size: 10.5pt;
+      font-weight: 800;
+    }
+
+    .sub-badge {
+      background: var(--ps-gold);
+      color: var(--ps-navy);
+      font-size: 7.8pt;
+      font-weight: 800;
+      padding: 0.03in 0.09in;
+      border-radius: 0.04in;
+    }
+
+    .sub-content {
+      padding: 0.12in 0.16in;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1in;
+    }
+
+    /* Workflow Ribbon */
+    .workflow-ribbon {
+      background: #FFFFFF;
+      border: 1.5px solid var(--card-border);
+      border-radius: 0.12in;
+      padding: 0.12in 0.2in;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.18in;
+    }
+
+    .workflow-step {
+      flex: 1;
+      padding: 0.11in 0.16in;
+      border-radius: 0.08in;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    .workflow-step.step-navy {
+      background: var(--ps-navy);
+    }
+
+    .workflow-step.step-blue {
+      background: var(--ps-blue-mid);
+    }
+
+    .step-title {
+      font-size: 12.5pt;
+      font-weight: 800;
+      margin-bottom: 0.03in;
+    }
+
+    .step-desc {
+      font-size: 9.6pt;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 500;
+    }
+
+    .workflow-arrow {
+      color: var(--ps-gold);
+      font-size: 20pt;
+      font-weight: 900;
+      padding: 0 0.02in;
+    }
+
+    /* Card 3 Waveform Stack */
+    .waveform-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.08in;
+    }
+
+    .waveform-img {
+      width: 100%;
+      height: 1.65in;
+      object-fit: contain;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.06in;
+    }
+
+    /* Card 4 High Speed Diagnostics */
+    .camera-top-row {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 0.2in;
+      align-items: center;
+    }
+
+    .camera-img-container {
+      position: relative;
+      background: #000000;
+      border-radius: 0.06in;
+      overflow: hidden;
+      border: 1px solid #CBD5E1;
+    }
+
+    .camera-img {
+      width: 100%;
+      height: 1.95in;
+      object-fit: cover;
+      display: block;
+    }
+
+    .camera-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 37, 69, 0.92);
+      color: #FFFFFF;
+      font-size: 8.2pt;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.04in;
+    }
+
+    .filmstrip-container {
+      background: var(--ps-navy-dark);
+      border-radius: 0.08in;
+      padding: 0.09in 0.12in;
+      display: flex;
+      flex-direction: column;
+      gap: 0.07in;
+    }
+
+    .filmstrip-title {
+      color: #FFFFFF;
+      font-size: 9.6pt;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .filmstrip-frames {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.06in;
+    }
+
+    .film-frame {
+      position: relative;
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 0.04in;
+      overflow: hidden;
+    }
+
+    .film-frame img {
+      width: 100%;
+      height: 1.35in;
+      object-fit: cover;
+      display: block;
+    }
+
+    .frame-tag-left {
+      position: absolute;
+      bottom: 0.03in;
+      left: 0.03in;
+      background: var(--ps-gold);
+      color: var(--ps-navy);
+      font-size: 7.2pt;
+      font-weight: 800;
+      padding: 0.02in 0.06in;
+      border-radius: 0.03in;
+    }
+
+    .frame-tag-right {
+      position: absolute;
+      bottom: 0.03in;
+      right: 0.03in;
+      background: rgba(0, 0, 0, 0.8);
+      color: #FFFFFF;
+      font-size: 6.8pt;
+      font-weight: 600;
+      padding: 0.02in 0.06in;
+      border-radius: 0.03in;
+    }
+
+    /* Wide full figure banner */
+    .wide-figure {
+      width: 100%;
+      height: 3.0in;
+      object-fit: contain;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.06in;
+      display: block;
+    }
+
+    .digital-twin-figure {
+      width: 100%;
+      height: 3.25in;
+      object-fit: contain;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.06in;
+      display: block;
+    }
+
+    /* =========================================================
+       5. BULLET LISTS & TYPOGRAPHY
+       ========================================================= */
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1in;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: 0.3in;
+      font-size: 11.5pt;
+      line-height: 1.46;
+      color: var(--text-dark);
+    }
+
+    .bullet-list li::before {
+      content: "▪";
+      position: absolute;
+      left: 0.05in;
+      color: var(--ps-gold);
+      font-size: 16pt;
+      line-height: 1;
+      top: -0.03in;
+    }
+
+    .bullet-list strong {
+      color: var(--ps-navy);
+      font-weight: 750;
+    }
+
+    .compact-bullets {
+      gap: 0.07in;
+    }
+
+    .compact-bullets li {
+      font-size: 10.5pt;
+      line-height: 1.42;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       1. TOP HEADER BANNER
+       ========================================================= -->
+  <header class="header-banner">
+    <img class="header-logo" src="../images/PSULogo_hires.png" alt="Penn State Logo">
+    
+    <div class="header-center">
+      <h1 class="header-title">High-Throughput Dynamic Material Characterization</h1>
+      <h2 class="header-subtitle">Synergistic Experimental &amp; Digital Twin Framework for Rate-Dependent Model Discovery</h2>
+      <div class="header-authors">
+        Zachary Salas<sup>1</sup>
+        <span class="separator">|</span>
+        Jeremy Croom<sup>1</sup>
+        <span class="separator">|</span>
+        Reuben H. Kraft, Ph.D.<sup>1</sup>
+      </div>
+      <div class="header-affiliation">
+        <sup>1</sup>Department of Mechanical Engineering, The Pennsylvania State University, University Park, PA
+      </div>
+    </div>
+
+    <img class="header-logo" src="../images/LANLLogo.png" alt="Los Alamos National Laboratory Logo">
+  </header>
+
+  <!-- =========================================================
+       2. MAIN POSTER CONTENT CANVAS
+       ========================================================= -->
+  <main class="poster-content">
+
+    <!-- ROW 1: Miniature Kolsky Bar Setup & Digital Twin Modeling -->
+    <section class="row-grid" style="height: 8.6in;">
+      
+      <!-- CARD 1: Miniature Kolsky Bar Apparatus -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Miniature Kolsky Bar Apparatus (&empty; 3.17 mm)</span>
+          <span class="card-badge">Experimental Apparatus</span>
+        </div>
+        <div class="card-body">
+          <div class="card-hardware-top">
+            <img class="card-hardware-img" src="../images/PSU_MiniKolskyBar_system.png" alt="PSU Miniature Kolsky Bar System">
+            <div class="spec-card">
+              <div class="spec-header">HARDWARE ARCHITECTURE</div>
+              <div class="spec-table">
+                <div class="spec-row"><span class="spec-label">Bar Material:</span><span class="spec-val">C350 Maraging Steel</span></div>
+                <div class="spec-row"><span class="spec-label">Bar Diameter:</span><span class="spec-val">&empty; 3.17 mm (1/8&Prime; OD)</span></div>
+                <div class="spec-row"><span class="spec-label">Bar Lengths:</span><span class="spec-val">Inc. 1.0 m, Trans. 1.0 m</span></div>
+                <div class="spec-row"><span class="spec-label">Wave Speed:</span><span class="spec-val">C<sub>0</sub> &approx; 4,960 m/s</span></div>
+                <div class="spec-row"><span class="spec-label">Striker Range:</span><span class="spec-val">L<sub>s</sub> = 200 mm, V<sub>0</sub> &le; 30 m/s</span></div>
+                <div class="spec-row"><span class="spec-label">Pulse Duration:</span><span class="spec-val">T<sub>p</sub> &approx; 78 &mu;s</span></div>
+                <div class="spec-row"><span class="spec-label">Diagnostics:</span><span class="spec-val">Semiconductor (10 MHz DAQ)</span></div>
+                <div class="spec-row"><span class="spec-label">Strain Rate:</span><span class="spec-val">&epsilon;&#775;<sub>max</sub> &sim; 1.2 &times; 10<sup>4</sup> s<sup>&minus;1</sup></span></div>
+              </div>
+            </div>
+          </div>
+          <ul class="bullet-list">
+            <li><strong>Ultra-Small Diameter Architecture:</strong> Precision &empty; 3.17 mm C350 maraging steel bar system specifically engineered for sub-scale testing of advanced composites, ductile metals (OFHC copper), and transparent polymers (PMMA).</li>
+            <li><strong>Extreme Dynamic Strain Rate Regime:</strong> Achieves dynamic strain rates from &epsilon;&#775; &sim; 10<sup>3</sup> to 1.2 &times; 10<sup>4</sup> s<sup>&minus;1</sup> under strictly verified 1D wave propagation with minimal Pochhammer-Chree radial dispersion.</li>
+            <li><strong>High-Frequency Diagnostics:</strong> Instrumented with high-bandwidth semiconductor strain gauges at bar midpoints; isolates incident (&sigma;<sub>i</sub>), reflected (&sigma;<sub>r</sub>), and transmitted (&sigma;<sub>t</sub>) stress waves digitized at 10 MHz.</li>
+            <li><strong>High-Throughput Testing Protocol:</strong> Modular alignment guides and precision collets enable rapid shot cycles (&gt;10 shots/hr), providing dense empirical datasets for statistical uncertainty bounds.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- CARD 2: Abaqus/Explicit Digital Twin Modeling -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Abaqus/Explicit Digital Twin Modeling</span>
+          <span class="card-badge">Computational Twin</span>
+        </div>
+        <div class="card-body">
+          <img class="digital-twin-figure" src="../images/digital_twin_full_and_zoom.png" alt="Abaqus Digital Twin Schematic & Mesh Zoom">
+          
+          <ul class="bullet-list compact-bullets">
+            <li><strong>Multi-Symmetry FE Formulations:</strong> 3D quarter- and full-symmetry models constructed in Abaqus/Explicit with C3D8R hex elements for dispersive wave propagation, striker impact, and boundary condition verification.</li>
+            <li><strong>Pre-Shot Waveform Optimization:</strong> Virtual striker velocity and boundary impedance sweeps eliminate trial-and-error testing and maximize constant-strain-rate deformation duration.</li>
+          </ul>
+
+          <div class="sub-panel">
+            <div class="sub-header">
+              <span class="sub-title">Innovative Pulse Shaping for Tailored Response</span>
+              <span class="sub-badge">TAILORED WAVEFORMS</span>
+            </div>
+            <div class="sub-content">
+              <img style="width: 100%; height: 1.5in; object-fit: contain;" src="../images/pulse_shaping_tailored_response.png" alt="Pulse Shaping Micro-Lattice & Waveform">
+              <ul class="bullet-list compact-bullets">
+                <li><strong>AM Micro-Architected Shapers:</strong> Additively manufactured micro-lattices (nTopology/Abaqus) engineered to eliminate high-frequency wave dispersion and initial stress spikes.</li>
+                <li><strong>Constant Strain-Rate (CSR) Control:</strong> Programmable rise times dynamically tailor the incident pulse to ensure dynamic equilibrium and steady &epsilon;&#775; deformation across soft and hard materials.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- WORKFLOW RIBBON: 4-Step Closed-Loop Pipeline -->
+    <section class="workflow-ribbon">
+      <div class="workflow-step step-navy">
+        <span class="step-title">1. Virtual Pulse Shaping</span>
+        <span class="step-desc">Abaqus sweeps shaper geometry &amp; velocity</span>
+      </div>
+      <span class="workflow-arrow">&#9654;</span>
+      
+      <div class="workflow-step step-blue">
+        <span class="step-title">2. Specimen &amp; Shaper Prep</span>
+        <span class="step-desc">Wire-EDM precision fabrication &amp; alignment</span>
+      </div>
+      <span class="workflow-arrow">&#9654;</span>
+
+      <div class="workflow-step step-navy">
+        <span class="step-title">3. Dynamic Mini-SHPB Run</span>
+        <span class="step-desc">10 MHz strain acquisition + Nova S20 video</span>
+      </div>
+      <span class="workflow-arrow">&#9654;</span>
+
+      <div class="workflow-step step-blue">
+        <span class="step-title">4. Model Calibration &amp; Discovery</span>
+        <span class="step-desc">Extract &sigma;-&epsilon; curves &amp; refine digital twin</span>
+      </div>
+    </section>
+
+    <!-- ROW 2: Wave Alignment & High-Speed Video -->
+    <section class="row-grid" style="height: 7.9in;">
+
+      <!-- CARD 3: Dynamic Wave Alignment & Validation -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Dynamic Wave Alignment &amp; Validation</span>
+          <span class="card-badge">Wave Propagation</span>
+        </div>
+        <div class="card-body">
+          <div class="waveform-stack">
+            <img class="waveform-img" src="../images/incidentcomp.png" alt="Incident Wave Comparison">
+            <img class="waveform-img" src="../images/transmissioncomp.png" alt="Transmission Wave Comparison">
+          </div>
+          <ul class="bullet-list">
+            <li><strong>Dispersion-Corrected Voltage Signals:</strong> Incident and transmitted pulses captured at 10 MHz sampling frequency; wave profiles time-shifted to specimen contact interface.</li>
+            <li><strong>Digital Twin Predictive Accuracy:</strong> Tight overlay between finite element simulation predictions and experimental bridge voltages across the primary pulse duration.</li>
+            <li><strong>Dynamic Force Equilibrium:</strong> Verified across incident and transmission bar platens (P<sub>1</sub>(t) &approx; P<sub>2</sub>(t)), ensuring homogeneous stress distribution throughout deformation.</li>
+            <li><strong>Model Refinement Feedback:</strong> Waveform discrepancies directly guide the identification of rate-dependent strain hardening and thermal softening parameters.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- CARD 4: Photron FASTCAM Nova S20 High-Speed Video -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Photron FASTCAM Nova S20 High-Speed Video</span>
+          <span class="card-badge">Optical Diagnostics</span>
+        </div>
+        <div class="card-body">
+          <div class="camera-top-row">
+            <div class="camera-img-container">
+              <img class="camera-img" src="../images/camera_setup.jpg" alt="FASTCAM Nova S20 Rig">
+              <div class="camera-label">FASTCAM Nova S20 Rig</div>
+            </div>
+            <div>
+              <div style="font-size: 11.5pt; font-weight: 750; color: var(--ps-navy); margin-bottom: 0.05in;">Optical Configuration &amp; Sync:</div>
+              <p style="font-size: 10.2pt; line-height: 1.45; color: var(--text-dark); margin-bottom: 0.08in;">
+                Coupled with macro-telephoto optics and high-intensity LED matrix illumination, triggered synchronously with the incident strain bridge.
+              </p>
+              <ul class="bullet-list compact-bullets">
+                <li><strong>Framing Rates:</strong> 100,000 to 200,000 fps with sub-&mu;s exposure to freeze dynamic wave motion.</li>
+                <li><strong>Alignment Verification:</strong> Real-time visualization guarantees coaxial platen impact without bar bending.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="filmstrip-container">
+            <div class="filmstrip-title">High-Speed Dynamic Compression Sequence (&epsilon;&#775; &sim; 4000 s<sup>&minus;1</sup> OFHC Copper on &empty; 3.17 mm Bars)</div>
+            <div class="filmstrip-frames">
+              <div class="film-frame">
+                <img src="../images/copper_f1.png" alt="Frame 1">
+                <span class="frame-tag-left">0.0 &mu;s</span>
+                <span class="frame-tag-right">Initial</span>
+              </div>
+              <div class="film-frame">
+                <img src="../images/copper_f2.png" alt="Frame 2">
+                <span class="frame-tag-left">35.0 &mu;s</span>
+                <span class="frame-tag-right">Elastic</span>
+              </div>
+              <div class="film-frame">
+                <img src="../images/copper_f3.png" alt="Frame 3">
+                <span class="frame-tag-left">70.0 &mu;s</span>
+                <span class="frame-tag-right">Flow</span>
+              </div>
+              <div class="film-frame">
+                <img src="../images/copper_f4.png" alt="Frame 4">
+                <span class="frame-tag-left">105.0 &mu;s</span>
+                <span class="frame-tag-right">Barreling</span>
+              </div>
+              <div class="film-frame">
+                <img src="../images/copper_f5.png" alt="Frame 5">
+                <span class="frame-tag-left">140.0 &mu;s</span>
+                <span class="frame-tag-right">Perm. Set</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="bullet-list compact-bullets">
+            <li><strong>Deformation Kinematics:</strong> In-situ high-speed sequence captures progressive axial upsetting, uniform radial expansion, and plastic barreling without shear localization.</li>
+            <li><strong>Dynamic Contact Uniformity:</strong> Sub-microsecond exposure verifies planar platen seating and absence of specimen tilt or reverberating acoustic reflections during wave entry.</li>
+            <li><strong>Full-Field Optical Strain Tracking:</strong> Synchronous frame recordings enable DIC to cross-validate bar 1D wave reduction against true surface kinematics.</li>
+          </ul>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- ROW 3: Rate-Dependent Response & Future Horizons (1,000 Tests/Day) -->
+    <section class="row-grid" style="height: 7.9in;">
+
+      <!-- CARD 5: Rate-Dependent Response & Failure Diagnostics -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Rate-Dependent Response &amp; Failure Diagnostics</span>
+          <span class="card-badge">Material Behavior</span>
+        </div>
+        <div class="card-body">
+          <img class="wide-figure" src="../images/rate_and_damage_composite.png" alt="Rate Dependent Stress Strain & SEM CT Diagnostics">
+          <ul class="bullet-list">
+            <li><strong>Extended Constant Strain-Rate Plateau:</strong> Tailored pulse shaping yields a flat strain-rate plateau (&epsilon;&#775; &approx; 3,400&ndash;3,560 s<sup>&minus;1</sup>), ensuring constitutive data is uncontaminated by transient wave accelerations.</li>
+            <li><strong>Dynamic Yield &amp; Flow Enhancement:</strong> PMMA specimens exhibit distinct rate hardening, elevating flow stress to &sim; 345 MPa at high rates compared to quasi-static yield values (&sim; 100 MPa).</li>
+            <li><strong>Micro-Scale Failure Mechanisms:</strong> Post-test SEM imaging reveals transverse fiber shear kinking, matrix crushing, and dynamic spallation at rates &gt;10<sup>3</sup> s<sup>&minus;1</sup>.</li>
+            <li><strong>Symbiotic Digital Twin Feedback:</strong> Experimental flow stress curves and 3D micro-CT damage fields directly inform and calibrate anisotropic plasticity and dynamic failure criteria in LANL penetration simulations.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- CARD 6: Future Horizons: Autonomous Kolsky Bar System -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">Future Horizons: Autonomous Kolsky Bar System</span>
+          <span class="card-badge gold">1,000 Tests / Day</span>
+        </div>
+        <div class="card-body">
+          <img class="wide-figure" src="../images/automation_concept.png" alt="Autonomous High Throughput Testing Architecture">
+          <ul class="bullet-list">
+            <li><strong>Autonomous 1,000-Tests/Day Throughput:</strong> High-density robotic carousels, automated pick-and-place micro-grippers (&plusmn;5 &mu;m), and rapid-cycle pulse-shaper cassettes achieve &lt;60 s shot turnaround.</li>
+            <li><strong>Multi-Condition Parametric Testing:</strong> Rapid automated sweeps across wide thermal bounds (&minus;150&deg;C to 800&deg;C), strain rates (10<sup>2</sup>&ndash;10<sup>4</sup> s<sup>&minus;1</sup>), and multi-axial stress states (compression, shear, tension).</li>
+            <li><strong>Active Learning Experiment Steering:</strong> Bayesian acquisition algorithms identify high-uncertainty regions in constitutive space, automatically commanding the next test conditions to maximize information gain.</li>
+            <li><strong>Automated Rate-Dependent Model Discovery:</strong> Synchronized 10 MHz DAQ and DIC feed into automated inverse FE solvers, auto-calibrating Johnson-Cook and damage models for direct LANL hydrocode deployment.</li>
+          </ul>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

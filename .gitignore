@@ -1,0 +1,25 @@
+# LaTeX Build Artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+*.synctex.gz
+*.bbl
+*.blg
+latex/Kolsky_Poster_Updated.pdf
+latex/kraftlab.tex
+latex/main_original.tex
+
+# Avoid committing junction links / duplicate images (images/ at repo root is master)
+html/images
+latex/images
+
+# Archives & Temporary Caches
+Kolsky_Poster.zip
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
