@@ -11,9 +11,10 @@
 
 This repository houses the design, scientific narrative, figures, and build pipelines for a 24" $\times$ 32" research poster showcasing the synergy between **Miniature Kolsky Bar experiments** ($\varnothing 3.17\,\text{mm}$) and an **Abaqus Explicit Digital Twin** for high-strain-rate material characterization ($10^3\text{ to }10^5\,\text{s}^{-1}$).
 
-The project maintains two parallel, synchronized implementations:
-1. **HTML/CSS Poster (`html/`)**: *Primary recommendation* for flexible typography, rapid visual iteration, and pixel-perfect printing via headless Chromium.
-2. **LaTeX/TikZ Poster (`latex/`)**: Traditional academic print workflow using `beamerposter` / `tikz`.
+The project maintains three parallel, synchronized implementations:
+1. **PowerPoint Poster (`pptx/`)**: Native Microsoft PowerPoint (.pptx) adhering to Penn State College of Engineering & Multimedia/Print Center (MPC) 24" roll width specifications with vector PDF export.
+2. **HTML/CSS Poster (`html/`)**: Flexible typography, rapid visual iteration, and pixel-perfect printing via headless Chromium.
+3. **LaTeX/TikZ Poster (`latex/`)**: Traditional academic print workflow using `beamerposter` / `tikz`.
 
 Future AI tools and contributors must consult this guide to understand design decisions, repository architecture, figure generation scripts, and exact compilation workflows before making changes.
 
@@ -78,6 +79,11 @@ SHPB_Poster/
 │   ├── poster_html_preview-1.png  # Rendered preview image for verification
 │   └── images -> ../images        # NTFS Directory Junction to shared images
 │
+├── pptx/                          # POWERPOINT POSTER PIPELINE (PSU PRINT COMPLIANT)
+│   ├── Kolsky_Poster.pptx         # Master editable PowerPoint source (24" x 32")
+│   ├── Kolsky_Poster_PPTX.pdf     # Vector PDF output exported from PowerPoint
+│   └── poster_pptx_preview-1.png  # Rendered preview image for verification
+│
 ├── latex/                         # LATEX/TIKZ POSTER PIPELINE
 │   ├── main.tex                   # Master LaTeX beamerposter source
 │   ├── Kolsky_Poster_LaTeX.pdf    # Compiled LaTeX PDF output
@@ -96,7 +102,9 @@ SHPB_Poster/
     ├── generate_automation_diagram.py # Creates images/automation_concept.png
     ├── generate_digital_twin.py       # Creates images/digital_twin_card.png
     ├── generate_imaging_strip.py      # Creates images/imaging_strip.png
-    └── generate_card5_composite.py    # Creates rate-dependent flow stress plots
+    ├── generate_card5_composite.py    # Creates rate-dependent flow stress plots
+    ├── generate_pptx_poster.py        # Generates pptx/Kolsky_Poster.pptx
+    └── export_pptx_to_pdf.ps1         # Exports PPTX to vector PDF via COM
 ```
 
 > [!IMPORTANT]
@@ -108,7 +116,16 @@ SHPB_Poster/
 
 All commands are executed from the repository root in **Windows PowerShell**:
 
-### 1. Recompiling the HTML/CSS Poster to PDF
+### 1. Generating & Exporting the PowerPoint Poster
+Generate the native `.pptx` presentation and export to vector PDF via PowerPoint COM:
+
+```powershell
+python scripts/generate_pptx_poster.py
+powershell -ExecutionPolicy Bypass -File scripts\export_pptx_to_pdf.ps1
+pdftoppm -png -r 150 pptx\Kolsky_Poster_PPTX.pdf pptx\poster_pptx_preview
+```
+
+### 2. Recompiling the HTML/CSS Poster to PDF
 We use headless Google Chrome with modern print flags. Always pass `--user-data-dir` to an isolated directory so it executes cleanly even when Chrome is already running:
 
 ```powershell
@@ -122,7 +139,7 @@ Start-Process -FilePath "chrome.exe" -ArgumentList `
   -Wait -NoNewWindow
 ```
 
-### 2. Rendering PDF Previews to PNG for Agent Inspection
+### 3. Rendering PDF Previews to PNG for Agent Inspection
 Use `pdftoppm` (from Poppler / MiKTeX) to generate high-resolution PNG previews:
 
 ```powershell
@@ -132,7 +149,7 @@ pdftoppm -png -r 150 html\Kolsky_Poster_HTML.pdf html\poster_html_preview
 
 Inspect the rendered image with `view_file` to verify formatting, layout alignment, and typography.
 
-### 3. Compiling the LaTeX Poster
+### 4. Compiling the LaTeX Poster
 Run `pdflatex` inside the `latex/` directory:
 
 ```powershell
@@ -146,7 +163,7 @@ Render LaTeX preview:
 pdftoppm -png -r 150 latex\Kolsky_Poster_LaTeX.pdf latex\poster_updated_preview
 ```
 
-### 4. Regenerating Python Figures
+### 5. Regenerating Python Figures
 When modifying diagrams or plots:
 ```powershell
 python scripts/generate_automation_diagram.py
