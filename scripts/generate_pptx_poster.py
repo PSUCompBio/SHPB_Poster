@@ -58,7 +58,7 @@ def create_poster():
     hdr_h = Inches(3.30)
 
     hdr_box = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, hdr_left, hdr_top, hdr_w, hdr_h
+        MSO_SHAPE.RECTANGLE, hdr_left, hdr_top, hdr_w, hdr_h
     )
     hdr_box.fill.solid()
     hdr_box.fill.fore_color.rgb = WHITE
@@ -206,7 +206,7 @@ def create_poster():
     def create_card_shell(left, top, width, height, title, badge_text, badge_gold=False):
         # Outer Card Container
         card = slide.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height
+            MSO_SHAPE.RECTANGLE, left, top, width, height
         )
         card.fill.solid()
         card.fill.fore_color.rgb = CARD_BG
@@ -249,7 +249,7 @@ def create_poster():
         badge_top = top + Inches(0.11)
 
         badge = slide.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, badge_left, badge_top, badge_w, badge_h
+            MSO_SHAPE.RECTANGLE, badge_left, badge_top, badge_w, badge_h
         )
         badge.fill.solid()
         badge.fill.fore_color.rgb = GOLD if badge_gold else MID_BLUE
@@ -322,29 +322,29 @@ def create_poster():
             width=Inches(5.75), height=Inches(3.40)
         )
 
-    # Card 1 Hardware Architecture Table Box
+    # Card 1 Hardware Architecture Table (Clean header, no rounded box)
     spec_left = col1_left + Inches(6.12)
     spec_top = row1_top + Inches(0.75)
     spec_w = Inches(4.90)
     spec_h = Inches(3.40)
 
-    spec_bg = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, spec_left, spec_top, spec_w, spec_h
-    )
-    spec_bg.fill.solid()
-    spec_bg.fill.fore_color.rgb = ICE_BLUE
-    spec_bg.line.color.rgb = BORDER_GRAY
-    spec_bg.line.width = Pt(1.0)
-
-    # Spec header strip
+    # Spec header strip (Clean rectangle)
     spec_hdr = slide.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, spec_left, spec_top, spec_w, Inches(0.38)
+        MSO_SHAPE.RECTANGLE, spec_left, spec_top, spec_w, Inches(0.36)
     )
     spec_hdr.fill.solid()
     spec_hdr.fill.fore_color.rgb = MID_BLUE
     spec_hdr.line.fill.background()
 
-    spec_tb = slide.shapes.add_textbox(spec_left, spec_top + Inches(0.04), spec_w, Inches(0.32))
+    # Spec header gold accent stripe
+    spec_gold = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, spec_left, spec_top + Inches(0.36), spec_w, Inches(0.03)
+    )
+    spec_gold.fill.solid()
+    spec_gold.fill.fore_color.rgb = GOLD
+    spec_gold.line.fill.background()
+
+    spec_tb = slide.shapes.add_textbox(spec_left, spec_top + Inches(0.03), spec_w, Inches(0.32))
     sp_p = spec_tb.text_frame.paragraphs[0]
     sp_p.alignment = PP_ALIGN.CENTER
     s_run = sp_p.add_run()
@@ -416,27 +416,27 @@ def create_poster():
     ]
     add_bullets(col2_left + Inches(0.22), row1_top + Inches(3.18), col_w - Inches(0.44), Inches(1.35), c2_top_bullets, font_size=9.8, space_after=4.0)
 
-    # Sub-panel: Innovative Pulse Shaping for Tailored Response
+    # Sub-panel: Innovative Pulse Shaping for Tailored Response (No rounded box)
     sub_left = col2_left + Inches(0.22)
     sub_top = row1_top + Inches(4.65)
     sub_w = col_w - Inches(0.44)
     sub_h = Inches(3.35)
 
-    sub_box = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, sub_left, sub_top, sub_w, sub_h
-    )
-    sub_box.fill.solid()
-    sub_box.fill.fore_color.rgb = ICE_BLUE
-    sub_box.line.color.rgb = BORDER_GRAY
-    sub_box.line.width = Pt(1.0)
-
-    # Sub-header strip
+    # Sub-header strip (Clean rectangle)
     sub_hdr = slide.shapes.add_shape(
         MSO_SHAPE.RECTANGLE, sub_left, sub_top, sub_w, Inches(0.36)
     )
     sub_hdr.fill.solid()
     sub_hdr.fill.fore_color.rgb = MID_BLUE
     sub_hdr.line.fill.background()
+
+    # Sub-header gold accent stripe
+    sub_gold = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, sub_left, sub_top + Inches(0.36), sub_w, Inches(0.03)
+    )
+    sub_gold.fill.solid()
+    sub_gold.fill.fore_color.rgb = GOLD
+    sub_gold.line.fill.background()
 
     sub_title_tb = slide.shapes.add_textbox(sub_left + Inches(0.15), sub_top + Inches(0.04), sub_w - Inches(2.20), Inches(0.30))
     st_p = sub_title_tb.text_frame.paragraphs[0]
@@ -447,9 +447,9 @@ def create_poster():
     st_run.font.bold = True
     st_run.font.color.rgb = WHITE
 
-    # Sub badge
+    # Sub badge (Clean rectangle)
     sub_badge = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, sub_left + sub_w - Inches(2.05), sub_top + Inches(0.05), Inches(1.95), Inches(0.26)
+        MSO_SHAPE.RECTANGLE, sub_left + sub_w - Inches(2.05), sub_top + Inches(0.05), Inches(1.95), Inches(0.26)
     )
     sub_badge.fill.solid()
     sub_badge.fill.fore_color.rgb = GOLD
@@ -488,7 +488,7 @@ def create_poster():
     wf_h = Inches(1.30)
 
     wf_box = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, wf_left, wf_top, wf_w, wf_h
+        MSO_SHAPE.RECTANGLE, wf_left, wf_top, wf_w, wf_h
     )
     wf_box.fill.solid()
     wf_box.fill.fore_color.rgb = WHITE
@@ -518,9 +518,9 @@ def create_poster():
 
     cur_x = wf_left + Inches(0.35)
     for i, (stitle, sdesc, scolor) in enumerate(steps_data):
-        # Step Card
+        # Step Card (Clean rectangle)
         sc = slide.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, cur_x, card_step_y, card_step_w, card_step_h
+            MSO_SHAPE.RECTANGLE, cur_x, card_step_y, card_step_w, card_step_h
         )
         sc.fill.solid()
         sc.fill.fore_color.rgb = scolor
@@ -658,30 +658,38 @@ def create_poster():
         r_d.font.size = Pt(9.4)
         r_d.font.color.rgb = TEXT_DARK
 
-    # Filmstrip Sequence Container
+    # Filmstrip Sequence Container (Clean banner, no rounded box)
     film_left = col2_left + Inches(0.22)
     film_top = row2_top + Inches(3.00)
     film_w = col_w - Inches(0.44)
     film_h = Inches(2.45)
 
-    film_bg = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, film_left, film_top, film_w, film_h
+    # Filmstrip Header Strip (Clean rectangle)
+    film_hdr = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, film_left, film_top, film_w, Inches(0.32)
     )
-    film_bg.fill.solid()
-    film_bg.fill.fore_color.rgb = ICE_BLUE
-    film_bg.line.color.rgb = BORDER_GRAY
-    film_bg.line.width = Pt(1.0)
+    film_hdr.fill.solid()
+    film_hdr.fill.fore_color.rgb = MID_BLUE
+    film_hdr.line.fill.background()
+
+    # Filmstrip Gold Accent Line
+    film_gold = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, film_left, film_top + Inches(0.32), film_w, Inches(0.03)
+    )
+    film_gold.fill.solid()
+    film_gold.fill.fore_color.rgb = GOLD
+    film_gold.line.fill.background()
 
     # Filmstrip Title
-    ft_tb = slide.shapes.add_textbox(film_left, film_top + Inches(0.04), film_w, Inches(0.30))
+    ft_tb = slide.shapes.add_textbox(film_left, film_top + Inches(0.02), film_w, Inches(0.28))
     ftp = ft_tb.text_frame.paragraphs[0]
     ftp.alignment = PP_ALIGN.CENTER
     ft_run = ftp.add_run()
-    ft_run.text = "High-Speed Dynamic Compression Sequence (ε̇ ~ 4000 s⁻¹ OFHC Copper on Ø 3.17 mm Bars)"
+    ft_run.text = "HIGH-SPEED DYNAMIC COMPRESSION SEQUENCE (ε̇ ~ 4000 s⁻¹ OFHC COPPER ON Ø 3.17 mm BARS)"
     ft_run.font.name = "Arial"
-    ft_run.font.size = Pt(8.8)
+    ft_run.font.size = Pt(8.5)
     ft_run.font.bold = True
-    ft_run.font.color.rgb = MID_BLUE
+    ft_run.font.color.rgb = WHITE
 
     # 5 High-Speed Frames
     frame_w = Inches(2.00)
