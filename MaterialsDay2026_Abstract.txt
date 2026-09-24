@@ -1,0 +1,10 @@
+TITLE
+Miniature Kolsky Bar Coupled with an Abaqus Digital Twin for High Strain Rate Characterization
+
+AUTHORS
+Jeremy Croom, Zachary Salas, Reuben H. Kraft
+
+ABSTRACT
+We present a miniature Kolsky (split Hopkinson pressure) bar (3.17 mm diameter bars) paired with an Abaqus Explicit digital twin of the full bar and specimen assembly for high strain rate characterization (about 10³ to 10⁵ /s). Pulse shaping, high speed imaging with DIC, and the twin together improve stress equilibrium, validate wave propagation, and support rate dependent constitutive models for impact relevant materials, with a path toward higher throughput testing.
+
+CHARS 472/600
